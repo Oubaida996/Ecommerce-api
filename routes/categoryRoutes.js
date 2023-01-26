@@ -1,14 +1,10 @@
 'use strict';
 
-const express = require( 'express' );
+const express = require('express');
 const router = express.Router();
 
-const { getCategories } = require( '../services/categoryService' );
+const { getCategories } = require('../services/categoryService');
 
-
-
-
-router.get( '/', getCategories )
-
+router.get('/', getCategories);
 
 module.exports = router;
