@@ -7,6 +7,7 @@ const categoryModel = require('../models/categoryModel');
 
 // @desc    Get a list of categories
 // @route   Get /api/v1/categories?page=<number>&limit=<number>
+// @query   page : integer  , limit : integer
 // @access  Public
 exports.getCategories = asyncHandler(async(req, res) => {
     // (req.query.page * 1) means convert the string into integer number
@@ -19,6 +20,17 @@ exports.getCategories = asyncHandler(async(req, res) => {
         page,
         data: categories,
     });
+});
+
+// @desc    Get a specific category depend on ID
+// @route   Get /api/v1/categories/:id
+// @params  id : integer
+// @access  Public
+exports.getCategory = asyncHandler(async(req, res) => {
+    const { id } = req.params;
+    const category = await categoryModel.findById(id);
+    if (!category) res.status(404).json({ message: `The catgegory isn't exist` });
+    res.status(200).json({ data: category });
 });
 
 // @desc    Create a category
