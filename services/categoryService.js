@@ -2,6 +2,7 @@
 
 const CategoryModel = require('../models/categoryModel');
 const slugify = require('slugify');
+const asyncHandler = require('express-async-handler');
 
 exports.getCategories = (req, res) => {
     const { name } = req.body;
@@ -19,13 +20,8 @@ exports.getCategories = (req, res) => {
         });
 };
 
-exports.createCategory = (req, res) => {
+exports.createCategory = asyncHandler(async(req, res) => {
     const { name } = req.body;
-    CategoryModel.create({ name, slug: slugify(name) })
-        .then((category) => {
-            res.status(201).json({ data: category });
-        })
-        .catch((err) => {
-            res.status(400).json({ 'Error form createCategory method': err });
-        });
-};
+    const category = await CategoryModel.create({ name, slug: slugify(name) });
+    res.status(201).json({ data: category });
+});
