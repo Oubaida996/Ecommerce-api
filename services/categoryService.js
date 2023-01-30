@@ -17,3 +17,14 @@ exports.getCategories = (req, res) => {
             res.json(err);
         });
 };
+
+exports.createCategory = (req, res) => {
+    const { name } = req.body;
+    CategoryModel.create({ name })
+        .then((category) => {
+            res.status(201).json({ data: category });
+        })
+        .catch((err) => {
+            res.status(400).json({ 'Error form createCategory method': err });
+        });
+};
