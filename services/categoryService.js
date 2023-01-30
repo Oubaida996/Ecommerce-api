@@ -3,23 +3,22 @@
 const CategoryModel = require('../models/categoryModel');
 const slugify = require('slugify');
 const asyncHandler = require('express-async-handler');
+const categoryModel = require('../models/categoryModel');
 
-exports.getCategories = (req, res) => {
-    const { name } = req.body;
-    console.log(req.body);
+// @desc    Get a list of categories
+// @route   Post /api/v1/categories
+// @access    Public
+exports.getCategories = asyncHandler(async(req, res) => {
+    const categories = await categoryModel.find({});
+    res.status(200).json({
+        results: categories.length,
+        data: categories,
+    });
+});
 
-    const newCategory = new CategoryModel({ name });
-
-    newCategory
-        .save()
-        .then((doc) => {
-            res.json(doc);
-        })
-        .catch((err) => {
-            res.json(err);
-        });
-};
-
+// @desc    Create a category
+// @route   Post /api/v1/categories
+// @access    Private
 exports.createCategory = asyncHandler(async(req, res) => {
     const { name } = req.body;
     const category = await CategoryModel.create({ name, slug: slugify(name) });
