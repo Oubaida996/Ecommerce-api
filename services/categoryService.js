@@ -59,3 +59,17 @@ exports.updateCategory = asyncHandler(async (req, res) => {
   if (!category) res.status(404).json({ message: `The catgegory isn't exist` });
   res.status(200).json({ data: category });
 });
+
+// @desc    Delete a specific category
+// @route   DELETE /api/v1/categories/:id
+// @access  Private
+
+exports.deleteCategory = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const category = await categoryModel.findOneAndDelete(
+    { _id: id },
+    { new: true }
+  );
+  if (!category) res.status(404).json({ message: `The catgegory isn't exist` });
+  res.status(204).send();
+});
