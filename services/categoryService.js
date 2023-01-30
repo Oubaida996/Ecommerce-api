@@ -1,6 +1,7 @@
 'use strict';
 
 const CategoryModel = require('../models/categoryModel');
+const slugify = require('slugify');
 
 exports.getCategories = (req, res) => {
     const { name } = req.body;
@@ -20,7 +21,7 @@ exports.getCategories = (req, res) => {
 
 exports.createCategory = (req, res) => {
     const { name } = req.body;
-    CategoryModel.create({ name })
+    CategoryModel.create({ name, slug: slugify(name) })
         .then((category) => {
             res.status(201).json({ data: category });
         })
