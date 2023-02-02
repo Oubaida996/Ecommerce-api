@@ -6,7 +6,7 @@ const ApiError = require('./utils/ApiErorr');
 //=====Routes
 const categoryRoutes = require('./routes/categoryRoutes');
 const dbConnection = require('./config/database');
-const globalErorrHandlingMidleware = require( './models/middleware/errorMidleware' );
+const globalErorrHandlingMidleware = require('./middleware/errorMidleware');
 dotenv.config({ path: 'config.env' });
 
 // express app
@@ -34,9 +34,13 @@ Handling Error
 // If the route doesn't exist. Ex: /api/v2/categories the path of endpoint doesn't exist.
 // '*' ==> meaning the unknown path/endpoint
 app.all('*', (req, res, next) => {
-  // Create error and send it to error handling midleware.
-  // const err = new Error(`Cant find this route ${req.originalUrl}`);
-  // next(err.message);
+  /*  
+ //==== ancient way :(
+//==> Create error and send it to error handling midleware.
+  const err = new Error(`Cant find this route ${req.originalUrl}`);
+  next(err.message); 
+  */
+ //=== Modern way :)
   next(new ApiError(`Cant find this rout ${req.originalUrl}`, 400));
 });
 
