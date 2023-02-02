@@ -76,7 +76,7 @@ exports.deleteCategory = asyncHandler(async (req, res,next) => {
     { new: true }
   );
   
-  if (!category) return next(new ApiError(`The catgegory isn't exist`, 404));
+  if (!category) return next(new ApiError("The catgegory isn't exist", 404));
   
   res.status(204).send();
 });
