@@ -11,6 +11,7 @@ const {
   deleteCategory,
 } = require('../services/categoryService');
 
+// Explain the meaning of middleware : https://expressjs.com/en/guide/writing-middleware.html
 // router.get('/', getCategories);
 // router.post('/', createCategory);
 
