@@ -57,7 +57,7 @@ const server = app.listen(PORT, () => {
 
 
 //Events ===> listen ===> emit
-//@desc Handle errors outside express unhandle rejections.
+// @desc  Handle errors outside express unhandle rejections.
 process.on('unhandledRejection' ,(err)=>{
 console.error(`unhandledRejection : ${err.name} | ${err.message} `);
 server.close(()=>{
