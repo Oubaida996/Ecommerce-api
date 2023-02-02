@@ -2,6 +2,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
+const ApiError = require('./utils/ApiErorr');
 //=====Routes
 const categoryRoutes = require('./routes/categoryRoutes');
 const dbConnection = require('./config/database');
@@ -30,16 +31,25 @@ Handling Error
 */
 
 // If the route doesn't exist. Ex: /api/v2/categories the path of endpoint doesn't exist.
-// '*' ==> meaning the unknown path/endpoint 
-app.all('*',(req,res,next)=>{
+// '*' ==> meaning the unknown path/endpoint
+app.all('*', (req, res, next) => {
   // Create error and send it to error handling midleware.
-  const err =new Error(`Cant find this rout ${req.originalUrl}`);
-  next(err.message);
-} )
+  // const err = new Error(`Cant find this route ${req.originalUrl}`);
+  // next(err.message);
+  next(new ApiError(`Cant find this rout ${req.originalUrl}`, 400));
+});
 
 // Global error handling middleware
 app.use((err, req, res, next) => {
-  res.status(400).json({ err });
+  err.statusCode = err.statusCode || 500;
+  err.status = err.status || 'error';
+
+  res.status(err.statusCode).json({
+    status: err.status,
+    error: err,
+    message: err.message,
+    stack: err.stack,
+  });
 });
 
 // ==== Connection with server
