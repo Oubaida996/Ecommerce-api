@@ -44,13 +44,24 @@ app.all('*', (req, res, next) => {
   next(new ApiError(`Cant find this rout ${req.originalUrl}`, 400));
 });
 
-// Global error handling middleware
+// Global error handling middleware for express
 app.use(globalErorrHandlingMidleware);
 
 // ==== Connection with server
 const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server running on port  ${PORT}`);
   //==== Connect the DB
   dbConnection();
 });
+
+
+//Events ===> listen ===> emit
+//@desc Handle errors outside express unhandle rejections.
+process.on('unhandledRejection' ,(err)=>{
+console.error(`unhandledRejection : ${err.name} | ${err.message} `);
+server.close(()=>{
+  console.error('Shutting down .....');
+  process.exit(1);//to stop app.
+})
+})
