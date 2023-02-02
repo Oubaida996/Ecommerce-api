@@ -6,6 +6,7 @@ const ApiError = require('./utils/ApiErorr');
 //=====Routes
 const categoryRoutes = require('./routes/categoryRoutes');
 const dbConnection = require('./config/database');
+const globalErorrHandlingMidleware = require( './models/middleware/errorMidleware' );
 dotenv.config({ path: 'config.env' });
 
 // express app
@@ -40,17 +41,7 @@ app.all('*', (req, res, next) => {
 });
 
 // Global error handling middleware
-app.use((err, req, res, next) => {
-  err.statusCode = err.statusCode || 500;
-  err.status = err.status || 'error';
-
-  res.status(err.statusCode).json({
-    status: err.status,
-    error: err,
-    message: err.message,
-    stack: err.stack,
-  });
-});
+app.use(globalErorrHandlingMidleware);
 
 // ==== Connection with server
 const PORT = process.env.PORT || 8000;
