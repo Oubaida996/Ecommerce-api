@@ -23,6 +23,20 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use('/api/v1/categories', categoryRoutes);
 
+/* 
+=====
+Handling Error
+=====
+*/
+
+// If the route doesn't exist. Ex: /api/v2/categories the path of endpoint doesn't exist.
+// '*' ==> meaning the unknown path/endpoint 
+app.all('*',(req,res,next)=>{
+  // Create error and send it to error handling midleware.
+  const err =new Error(`Cant find this rout ${req.originalUrl}`);
+  next(err.message);
+} )
+
 // Global error handling middleware
 app.use((err, req, res, next) => {
   res.status(400).json({ err });
