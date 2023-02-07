@@ -19,3 +19,30 @@ Note for me to add file into gitignore file:
         git rm --cached filename // for folder use git rm -rf --cached folder-name
         git add .
         git commit -m "add filename to .gitignore"
+
+
+***
+
+### Section 2 : Categories CURD operations.
+
+- Prepare the schema of category model.
+
+- Added Create operation into categoryServices file 'createCategory' .
+
+- Install a slugify package and edit the createCategory method.
+
+- Install async-handler-express package in order to handling exciptions… etc.
+
+- Edit the getCategories request inside categoryService file.
+
+- Category Pagination.
+
+- Added a new route to get specific category 'getCategory'.
+
+- Added a new route to update a specific category 'updateCategory'.
+
+- Added a new route to update a specific category 'deleteCategory'.
+
+***
+### Section 3 : Error Handling.
+
