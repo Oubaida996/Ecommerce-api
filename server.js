@@ -7,7 +7,7 @@ const ApiError = require('./utils/ApiErorr');
 const categoryRoutes = require('./routes/categoryRoutes');
 const subCategoryRoutes=require('./routes/subCategoryRoutes');
 const dbConnection = require('./config/database');
-const globalErorrHandlingMidleware = require('./middleware/errorMidleware');
+const globalErorrHandlingMidleware = require('./middleware/errorMiddleware');
 dotenv.config({ path: 'config.env' });
 
 // express app
