@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const ApiError = require('./utils/ApiErorr');
 //=====Routes
 const categoryRoutes = require('./routes/categoryRoutes');
+const subCategoryRoutes=require('./routes/subCategoryRoutes');
 const dbConnection = require('./config/database');
 const globalErorrHandlingMidleware = require('./middleware/errorMidleware');
 dotenv.config({ path: 'config.env' });
@@ -24,6 +25,7 @@ if (process.env.NODE_ENV === 'development') {
 //==== Mount Routes
 
 app.use('/api/v1/categories', categoryRoutes);
+app.use('/api/v1/subcategories', subCategoryRoutes);
 
 /* 
 =====
@@ -40,7 +42,7 @@ app.all('*', (req, res, next) => {
   const err = new Error(`Cant find this route ${req.originalUrl}`);
   next(err.message); 
   */
- //=== Modern way :)
+  //=== Modern way :)
   next(new ApiError(`Cant find this rout ${req.originalUrl}`, 400));
 });
 
@@ -55,13 +57,12 @@ const server = app.listen(PORT, () => {
   dbConnection();
 });
 
-
 //Events ===> listen ===> emit
 // @desc  Handle errors outside express unhandle rejections.
-process.on('unhandledRejection' ,(err)=>{
-console.error(`unhandledRejection : ${err.name} | ${err.message} `);
-server.close(()=>{
-  console.error('Shutting down .....');
-  process.exit(1);//to stop app.
-})
-})
+process.on('unhandledRejection', (err) => {
+  console.error(`unhandledRejection : ${err.name} | ${err.message} `);
+  server.close(() => {
+    console.error('Shutting down .....');
+    process.exit(1); //to stop app.
+  });
+});
