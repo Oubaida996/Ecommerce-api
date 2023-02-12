@@ -53,11 +53,11 @@ exports.createSubCategory = asyncHandler(async (req, res, next) => {
 // @access  Private
 exports.updateSubCategory = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  const { name } = req.body;
+  const { name ,categoryID} = req.body;
 
   const subCategory = await SubCategoryModel.findOneAndUpdate(
     { _id: id },
-    { name, slug: slugify(name) },
+    { name, slug: slugify(name) ,category:categoryID},
     { new: true }
   );
 

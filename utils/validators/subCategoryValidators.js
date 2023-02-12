@@ -31,7 +31,19 @@ exports.createSubCategoryValidator = [
 
 exports.updateSubCategoryValidator = [
   // 1- Rules
-  check('id').isMongoId().withMessage('Invalid category id format'),
+  check('id').isMongoId().withMessage('Invalid subcategory id format'),
+  check('name')
+    .notEmpty()
+    .withMessage('Subcategory name is required')
+    .isLength({ max: 32 })
+    .withMessage('Too long subcategory name')
+    .isLength({ min: 2 })
+    .withMessage('Too short subcategory name'),
+  check('categoryID')
+    .notEmpty()
+    .withMessage('You should select the main category')
+    .isMongoId()
+    .withMessage('Invalid category id format'),
   // 2- Middleware => catch errors form rules if exist
   validatorMiddleware,
 ];
