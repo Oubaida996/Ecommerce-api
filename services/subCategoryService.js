@@ -49,7 +49,7 @@ exports.createSubCategory = asyncHandler(async (req, res, next) => {
 });
 
 // @desc    Update subCategory
-// @route   POST /api/v1/subcategories
+// @route   PUT /api/v1/subcategories
 // @access  Private
 exports.updateSubCategory = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
@@ -60,5 +60,25 @@ exports.updateSubCategory = asyncHandler(async (req, res, next) => {
     { name, slug: slugify(name) },
     { new: true }
   );
+
+  if (!subCategory)
+    return next(new ApiError(`The subcatgegory isn't exist`, 404));
   res.status(200).json({ data: subCategory });
+});
+
+// @desc    Delete subCategory
+// @route   DELETE /api/v1/subcategories
+// @access  Private
+exports.deleteSubCategory = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const { name } = req.body;
+
+  const subCategory = await SubCategoryModel.findOneAndDelete(
+    { _id: id },
+    { new: true }
+  );
+
+  if (!subCategory)
+    return next(new ApiError(`The subcatgegory isn't exist`, 404));
+  res.status(204).send();
 });

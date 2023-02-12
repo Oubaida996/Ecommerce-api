@@ -7,10 +7,15 @@ const {
   getSubCategory,
   getSubCategories,
   updateSubCategory,
+  deleteSubCategory,
 } = require('../services/subCategoryService');
 
 router.route('/').post(createSubCategory).get(getSubCategories);
 
-router.route('/:id').get(getSubCategory).put(updateSubCategory);
+router
+  .route('/:id')
+  .get(getSubCategory)
+  .put(updateSubCategory)
+  .delete(deleteSubCategory);
 
 module.exports = router;
