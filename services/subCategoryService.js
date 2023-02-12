@@ -4,6 +4,7 @@ const SubCategoryModel = require('../models/subCategoryModel');
 const slugify = require('slugify');
 const asyncHandler = require('express-async-handler');
 const ApiError = require('../utils/ApiErorr');
+const { db } = require('../models/subCategoryModel');
 
 // @desc    Get a list of subcategories
 // @route   GET /api/v1/subcategories?page=<number>&limit=<number>
@@ -27,8 +28,14 @@ exports.getSubCategories = asyncHandler(async (req, res, next) => {
 // @access  Public
 exports.getSubCategory = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  const subCategory = await SubCategoryModel.findById(id);
-
+  const subCategory = await SubCategoryModel.findById(id).populate({
+    path: 'category',
+    select: 'name slug -_id',
+  });
+  /*  
+  Note : when you make populate, so you make to queries on db, so becareful when work with huge data.
+   -_id means without _id filed 
+   */
   if (!subCategory)
     return next(new ApiError(`The subcatgegory isn't exist`, 404));
   res.status(200).json({ data: subCategory });
@@ -53,11 +60,11 @@ exports.createSubCategory = asyncHandler(async (req, res, next) => {
 // @access  Private
 exports.updateSubCategory = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  const { name ,categoryID} = req.body;
+  const { name, categoryID } = req.body;
 
   const subCategory = await SubCategoryModel.findOneAndUpdate(
     { _id: id },
-    { name, slug: slugify(name) ,category:categoryID},
+    { name, slug: slugify(name), category: categoryID },
     { new: true }
   );
 

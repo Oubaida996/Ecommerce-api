@@ -20,7 +20,7 @@ exports.createSubCategoryValidator = [
     .withMessage('Too long subcategory name')
     .isLength({ min: 2 })
     .withMessage('Too short subcategory name'),
-  check('category')
+  check('categoryID')
     .notEmpty()
     .withMessage('Subcategory should belong into category')
     .isMongoId()
