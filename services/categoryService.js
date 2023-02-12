@@ -30,7 +30,7 @@ exports.getCategories = asyncHandler(async (req, res) => {
 exports.getCategory = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const category = await categoryModel.findById(id);
-  
+
   if (!category) return next(new ApiError(`The catgegory isn't exist`, 404));
   res.status(200).json({ data: category });
 });
@@ -48,7 +48,7 @@ exports.createCategory = asyncHandler(async (req, res) => {
 // @route   PUT /api/v1/categories/:id
 // @access  Private
 
-exports.updateCategory = asyncHandler(async (req, res,next) => {
+exports.updateCategory = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const { name } = req.body;
   // {filter},{fields that will update it},{option}
@@ -59,7 +59,7 @@ exports.updateCategory = asyncHandler(async (req, res,next) => {
     { new: true }
   );
   // if (!category) res.status(404).json({ message: `The catgegory isn't exist` });
-  if (!category){
+  if (!category) {
     return next(new ApiError(`The catgegory isn't exist`, 404));
   }
   res.status(200).json({ data: category });
@@ -69,14 +69,14 @@ exports.updateCategory = asyncHandler(async (req, res,next) => {
 // @route   DELETE /api/v1/categories/:id
 // @access  Private
 
-exports.deleteCategory = asyncHandler(async (req, res,next) => {
+exports.deleteCategory = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const category = await categoryModel.findOneAndDelete(
     { _id: id },
     { new: true }
   );
-  
+
   if (!category) return next(new ApiError("The catgegory isn't exist", 404));
-  
+
   res.status(204).send();
 });
