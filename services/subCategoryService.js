@@ -9,6 +9,14 @@ const ApiError = require('../utils/ApiErorr');
 // @route   GET /api/v1/categories/:categoryId/subcategories
 // https://www.damiannicholson.com/til/express-merge-params/
 
+exports.createFilterObject = (req, res, next) => {
+  const filterObj = req.params.categoryId
+    ? { category: req.params.categoryId }
+    : {};
+  req.filterObj = filterObj;
+  next();
+};
+
 // @desc    Get a list of subcategories
 // @route   GET /api/v1/subcategories?page=<number>&limit=<number>
 // @query   page : integer  , limit : integer
@@ -18,13 +26,7 @@ exports.getSubCategories = asyncHandler(async (req, res, next) => {
   const limit = req.query.limit || 5;
   const skip = (page - 1) * limit;
 
-  console.log(req.params.categoryId);
-
-  const filterObject = req.params.categoryId
-    ? { category: req.params.categoryId }
-    : {};
-
-  const subcategories = await SubCategoryModel.find(filterObject)
+  const subcategories = await SubCategoryModel.find(req.filterObj)
     .skip(skip)
     .limit(limit);
   res.status(200).json({
@@ -52,6 +54,12 @@ exports.getSubCategory = asyncHandler(async (req, res, next) => {
     return next(new ApiError(`The subcatgegory isn't exist`, 404));
   res.status(200).json({ data: subCategory });
 });
+
+// Nested route
+exports.setCategoryIdToBody = (req, res, next) => {
+  req.body.categoryID = req.params.categoryId || req.body.categoryID;
+  next();
+};
 
 // @desc    Create subCategory
 // @route   POST /api/v1/subcategories
