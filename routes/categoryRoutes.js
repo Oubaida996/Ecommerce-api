@@ -17,9 +17,10 @@ const {
   deleteCategoryValidator,
 } = require('../utils/validators/categoryValidators');
 
-// Explain the meaning of middleware : https://expressjs.com/en/guide/writing-middleware.html
-// router.get('/', getCategories);
-// router.post('/', createCategory);
+const subCategoriesRoute = require('./subCategoryRoutes');
+
+/* In most REST based Express.js applications, nesting routers as middleware is commonplace. To keep the parent req.params, you need to add { mergeParams: true } in to the child router. */
+router.use('/:categoryId/subcategories', subCategoriesRoute);
 
 router.route('/').get(getCategories).post(createCategory);
 
@@ -28,5 +29,9 @@ router
   .get(getCategoryValidator, getCategory)
   .put(updateCategoryValidator, updateCategory)
   .delete(deleteCategoryValidator, deleteCategory);
+
+// Explain the meaning of middleware : https://expressjs.com/en/guide/writing-middleware.html
+// router.get('/', getCategories);
+// router.post('/', createCategory);
 
 module.exports = router;
