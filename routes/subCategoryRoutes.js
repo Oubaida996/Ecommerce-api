@@ -1,13 +1,18 @@
 'use strict';
 
 const express = require('express');
-const router = express.Router();
+
+// Nesting routers as middleware is commonplace. To keep the parent req.params, you need to add { mergeParams: true } in to the child router.
+const router = express.Router({ mergeParams: true });
+
 const {
   createSubCategory,
   getSubCategory,
   getSubCategories,
   updateSubCategory,
   deleteSubCategory,
+  setCategoryIdToBody,
+  createFilterObject,
 } = require('../services/subCategoryService');
 
 const {
@@ -19,8 +24,8 @@ const {
 
 router
   .route('/')
-  .post(createSubCategoryValidator, createSubCategory)
-  .get(getSubCategories);
+  .post(setCategoryIdToBody, createSubCategoryValidator, createSubCategory)
+  .get(createFilterObject, getSubCategories);
 
 router
   .route('/:id')
