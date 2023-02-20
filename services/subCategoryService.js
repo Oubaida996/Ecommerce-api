@@ -57,7 +57,7 @@ exports.getSubCategory = asyncHandler(async (req, res, next) => {
 
 // Nested route
 exports.setCategoryIdToBody = (req, res, next) => {
-  req.body.categoryID = req.params.categoryId || req.body.categoryID;
+  req.body.categoryID ||= req.params.categoryId;
   next();
 };
 

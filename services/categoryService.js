@@ -3,7 +3,6 @@
 const CategoryModel = require('../models/categoryModel');
 const slugify = require('slugify');
 const asyncHandler = require('express-async-handler');
-const categoryModel = require('../models/categoryModel');
 const ApiError = require('../utils/ApiErorr');
 
 // @desc    Get a list of categories
@@ -15,7 +14,7 @@ exports.getCategories = asyncHandler(async (req, res) => {
   const page = req.query.page * 1 || 1;
   const limit = req.query.limit * 1 || 5;
   const skip = (page - 1) * limit;
-  const categories = await categoryModel.find({}).skip(skip).limit(limit);
+  const categories = await CategoryModel.find({}).skip(skip).limit(limit);
   res.status(200).json({
     results: categories.length,
     page,
@@ -29,7 +28,7 @@ exports.getCategories = asyncHandler(async (req, res) => {
 // @access  Public
 exports.getCategory = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  const category = await categoryModel.findById(id);
+  const category = await CategoryModel.findById(id);
 
   if (!category) return next(new ApiError(`The catgegory isn't exist`, 404));
   res.status(200).json({ data: category });
@@ -53,7 +52,7 @@ exports.updateCategory = asyncHandler(async (req, res, next) => {
   const { name } = req.body;
   // {filter},{fields that will update it},{option}
   // { new: true } this will return the row after update without it, it will return the row before update it
-  const category = await categoryModel.findOneAndUpdate(
+  const category = await CategoryModel.findOneAndUpdate(
     { _id: id },
     { name, slug: slugify(name) },
     { new: true }
@@ -71,7 +70,7 @@ exports.updateCategory = asyncHandler(async (req, res, next) => {
 
 exports.deleteCategory = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  const category = await categoryModel.findOneAndDelete(
+  const category = await CategoryModel.findOneAndDelete(
     { _id: id },
     { new: true }
   );
