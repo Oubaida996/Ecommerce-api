@@ -2,12 +2,20 @@
 const express = require('express');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
-const ApiError = require('./utils/ApiErorr');
-//=====Routes
+
+//==== Routes
 const categoryRoutes = require('./routes/categoryRoutes');
-const subCategoryRoutes=require('./routes/subCategoryRoutes');
+const subCategoryRoutes = require('./routes/subCategoryRoutes');
+const brandRoutes = require('./routes/brandRoutes');
+
+//===== DB
 const dbConnection = require('./config/database');
+
+//===== Error Handling
 const globalErorrHandlingMidleware = require('./middleware/errorMiddleware');
+const ApiError = require('./utils/ApiErorr');
+
+//==== Enviroment
 dotenv.config({ path: 'config.env' });
 
 // express app
@@ -26,6 +34,7 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use('/api/v1/categories', categoryRoutes);
 app.use('/api/v1/subcategories', subCategoryRoutes);
+app.use('/api/v1/brands', brandRoutes);
 
 /* 
 =====
