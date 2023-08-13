@@ -105,3 +105,13 @@ exports.getProductValidator = [
   check('id').isMongoId().withMessage('Invalid Id format for product'),
   validatorMiddleware,
 ];
+
+exports.updateProductValidator = [
+  check('id').isMongoId().withMessage('Invalid Id format for product'),
+  validatorMiddleware,
+];
+
+exports.deleteProductValidator = [
+  check('id').isMongoId().withMessage('Invalid Id format for product'),
+  validatorMiddleware,
+];
