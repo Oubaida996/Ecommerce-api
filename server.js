@@ -7,6 +7,7 @@ const dotenv = require('dotenv');
 const categoryRoutes = require('./routes/categoryRoutes');
 const subCategoryRoutes = require('./routes/subCategoryRoutes');
 const brandRoutes = require('./routes/brandRoutes');
+const productRoutes = require('./routes/productRoutes');
 
 //===== DB
 const dbConnection = require('./config/database');
@@ -35,6 +36,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use('/api/v1/categories', categoryRoutes);
 app.use('/api/v1/subcategories', subCategoryRoutes);
 app.use('/api/v1/brands', brandRoutes);
+app.use('/api/v1/products', productRoutes);
 
 /* 
 =====
