@@ -46,7 +46,7 @@ exports.createProductValidator = [
     .isLength({ max: 32 })
     .withMessage('The price after discount of product is too long')
     .custom((value, { req }) => {
-      if (req.body.price >= value) {
+      if (req.body.price <= value) {
         throw new Error(
           'The price after discount must be less than an actual price'
         );
